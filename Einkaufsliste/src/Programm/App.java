@@ -1,4 +1,5 @@
 package Programm;
+
 import Command.*;
 
 public class App {
@@ -13,9 +14,9 @@ public class App {
         CommandManager.getCommandManager().insertCommand(new EndProcessCommand());
         CommandManager.getCommandManager().insertCommand(new IssueBillCommand());
         CommandManager.getCommandManager().insertCommand(new StartProcessCommand());
-        while (true){
+        while (true) {
             CommandManager.getCommandManager().listenForUser();
-        }    
+        }
     }
 
 }

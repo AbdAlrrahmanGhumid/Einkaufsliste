@@ -1,16 +1,15 @@
 package Command;
 
-import Programm.Basket;
+//import Abstract.Automaton;
+//import Programm.Basket;
 import Programm.Mashine;
 
 public class ViewCommand extends Command {
-    public String getName(){
+    public String getName() {
         return "viewContent";
     }
-    public void runCommand(String [] args){
-        if (Mashine.getMashine().getCurrentState()==Mashine.State.Starting){
-            Basket.getBasket().viewContent();
-            Mashine.showStartingContent();
-        } else invalidInput();
+
+    public void runCommand(String[] args) {
+        Mashine.getMashine().automaton.runTransition(getName());
     }
 }
