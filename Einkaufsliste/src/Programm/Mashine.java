@@ -14,16 +14,19 @@ public class Mashine {
 
     State preStartingState = new State("PreStarting") {
         public void onEnter() {
+            currentState = preStartingState;
             showContent();
         }
     };
     State startingState = new State("Starting") {
         public void onEnter() {
+            currentState = startingState;
             showContent();
         }
     };
     State endingState = new State("Ending") {
         public void onEnter() {
+            currentState = endingState;
             showContent();
         }
 
@@ -59,14 +62,16 @@ public class Mashine {
             .addTransition("addItem", startingState, startingState, () -> {
                 addItem();
             })
-            .addTransition("invalidInput", startingState, startingState, () -> {
-                invalidInput();
+            .addTransition("loopTransition", startingState, startingState, () -> { // the loopTransition should be hiden
+                                                                                   // when "showContent()" command is
+                                                                                   // called
+                startProcess();
             })
-            .addTransition("invalidInput", endingState, endingState, () -> {
-                invalidInput();
+            .addTransition("loopTransition", endingState, endingState, () -> {
+                endProcess();
             })
-            .addTransition("invalidInput", preStartingState, preStartingState, () -> {
-                invalidInput();
+            .addTransition("loopTransition", preStartingState, preStartingState, () -> {
+                preStartProcess();
             });
 
     private static final Mashine myMashine = new Mashine();
@@ -157,8 +162,5 @@ public class Mashine {
         for (Product product : Basket.getBasket().products) {
             removeAll(product);
         }
-    }
-
-    public void invalidInput() {
     }
 }

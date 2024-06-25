@@ -21,26 +21,32 @@ public class Automaton {
     }
 
     public void runTransition(String name) {
-        if (true) {
-        }
         List<Transition> transition = transitions.stream()
                 .filter(t -> t.exitState() == currentState && t.name() == name)
                 .toList();
+        if (transition.size() == 0) {
+            try {
+                throw new IllegalArgumentException("No transiotn with name " + name);
+            } catch (IllegalArgumentException e) {
+                System.out.println(e);
+                runTransition("loopTransition"); // it runs a loop transition. is important for onEnter & onLeave, if
+                                                 // they
+                                                 // should be excuted for loops. is also important when to keep program
+                                                 // running.
+                                                 // loopTransition should be defined in the instance automaton.
+            }
+        }else{
+            State newState = transition.get(0).enterState();
 
-        if (transition.isEmpty()) {
-            throw new IllegalArgumentException("No transiotn with name ....");
-        }
+            // boolean callOnLeaveAndOnEnter = newState != currentState;
 
-        State newState = transition.get(0).enterState();
-
-        // boolean callOnLeaveAndOnEnter = newState != currentState;
-
-        currentState.onLeave(); // if onLeave method is not apporpriate for self-loop use
+            currentState.onLeave(); // if onLeave method is not apporpriate for self-loop use
+                                    // if(callOnLeaveAndOnEnter)
+            transition.get(0).action().run();
+            newState.onEnter(); // if onEnter method is not apporpriate for self-loop use
                                 // if(callOnLeaveAndOnEnter)
-        transition.get(0).action().run();
-        newState.onEnter(); // if onEnter method is not apporpriate for self-loop use
-                            // if(callOnLeaveAndOnEnter)
 
-        currentState = newState;
+            currentState = newState;
+        }
     }
 }

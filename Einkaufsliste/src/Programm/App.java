@@ -4,7 +4,7 @@ import Command.*;
 
 public class App {
     public static void main(String[] args) throws Exception {
-        Mashine.getMashine().preStartProcess();
+        Mashine.getMashine().showContent();;
         CommandManager.getCommandManager().insertCommand(new AddCommand());
         CommandManager.getCommandManager().insertCommand(new RemoveCommand());
         CommandManager.getCommandManager().insertCommand(new ViewCommand());
